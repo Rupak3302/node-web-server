@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About — Node Server</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0a0f; --surface: #13131a; --border: #1e1e2e;
+      --accent: #6c63ff; --accent2: #ff6584;
+      --text: #e8e8f0; --muted: #6b6b80;
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body: 'DM Sans', 'Segoe UI', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: var(--font-body); font-weight: 300;
+      min-height: 100vh;
+    }
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 3rem;
+      background: rgba(10,10,15,.7); backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .logo { font-family: var(--font-mono); font-size: .9rem; color: var(--accent); letter-spacing: .1em; }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: .85rem; letter-spacing: .05em; text-transform: uppercase; transition: color .2s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a.active { color: var(--accent); }
+
+    /* ── Page layout ── */
+    .page {
+      max-width: 860px; margin: 0 auto;
+      padding: 10rem 3rem 6rem;
+    }
+    .tag {
+      display: inline-block; font-family: var(--font-mono); font-size: .75rem;
+      color: var(--accent); border: 1px solid var(--accent);
+      padding: .3rem .8rem; border-radius: 4px; letter-spacing: .1em;
+      text-transform: uppercase; margin-bottom: 1.5rem;
+      opacity: 0; animation: fadeUp .5s .1s forwards;
+    }
+    h1 {
+      font-family: var(--font-display); font-size: clamp(2.5rem, 6vw, 4.5rem);
+      font-weight: 900; line-height: 1.1; margin-bottom: 1.5rem;
+      opacity: 0; animation: fadeUp .5s .2s forwards;
+    }
+    .lead {
+      font-size: 1.15rem; color: var(--muted); line-height: 1.9;
+      margin-bottom: 3rem;
+      opacity: 0; animation: fadeUp .5s .3s forwards;
+    }
+
+    /* ── Code block ── */
+    .code-block {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden; margin-bottom: 3rem;
+      opacity: 0; animation: fadeUp .5s .4s forwards;
+    }
+    .code-header {
+      display: flex; align-items: center; gap: .5rem;
+      padding: .8rem 1.2rem; border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,.02);
+    }
+    .dot { width: 12px; height: 12px; border-radius: 50%; }
+    .dot-r { background: #ff5f57; } .dot-y { background: #ffbd2e; } .dot-g { background: #28c840; }
+    .code-title { font-family: var(--font-mono); font-size: .75rem; color: var(--muted); margin-left: .5rem; }
+    pre {
+      padding: 1.5rem; font-family: var(--font-mono); font-size: .82rem;
+      line-height: 1.8; overflow-x: auto; color: var(--text);
+    }
+    .kw { color: #c792ea; } .fn { color: #82aaff; }
+    .str { color: #c3e88d; } .cm { color: var(--muted); font-style: italic; }
+    .num { color: #f78c6c; }
+
+    /* ── Timeline ── */
+    .section-title {
+      font-family: var(--font-display); font-size: 1.6rem; font-weight: 700;
+      margin-bottom: 1.5rem;
+    }
+    .timeline { border-left: 2px solid var(--border); padding-left: 2rem; margin-bottom: 3rem; }
+    .tl-item { position: relative; margin-bottom: 2rem; }
+    .tl-item::before {
+      content: ''; position: absolute; left: -2.45rem; top: .35rem;
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--accent); box-shadow: 0 0 10px var(--accent);
+    }
+    .tl-step { font-family: var(--font-mono); font-size: .75rem; color: var(--accent); margin-bottom: .3rem; }
+    .tl-title { font-weight: 500; margin-bottom: .3rem; }
+    .tl-desc { color: var(--muted); font-size: .9rem; line-height: 1.7; }
+
+    footer {
+      border-top: 1px solid var(--border); padding: 2rem 3rem;
+      text-align: center; color: var(--muted);
+      font-size: .8rem; font-family: var(--font-mono);
+    }
+    footer span { color: var(--accent); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="logo">node://server</div>
+    <ul class="nav-links">
+      <li><a href="/home">Home</a></li>
+      <li><a href="/about" class="active">About</a></li>
+      <li><a href="/services">Services</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="page">
+    <span class="tag">About this project</span>
+    <h1>How the<br />Server Works</h1>
+    <p class="lead">
+      This server is built using only Node.js's built-in <strong>http</strong>, <strong>fs</strong>, and <strong>path</strong>
+      modules. There are no external packages. The server listens on port 3000, reads the request URL,
+      matches it against a route map, and asynchronously reads the appropriate HTML file from disk.
+    </p>
+
+    <!-- Core code snippet -->
+    <div class="code-block">
+      <div class="code-header">
+        <div class="dot dot-r"></div><div class="dot dot-y"></div><div class="dot dot-g"></div>
+        <span class="code-title">server.js — core logic</span>
+      </div>
+      <pre><span class="cm">// Route map: pathname → { file, status }</span>
+<span class="kw">const</span> routes = {
+  <span class="str">'/home'</span>:    { file: <span class="str">'home.html'</span>,    code: <span class="num">200</span> },
+  <span class="str">'/about'</span>:   { file: <span class="str">'about.html'</span>,   code: <span class="num">200</span> },
+  <span class="str">'/contact'</span>: { file: <span class="str">'contact.html'</span>, code: <span class="num">200</span> },
+};
+
+<span class="cm">// Async helper — non-blocking file read</span>
+<span class="kw">function</span> <span class="fn">servePage</span>(res, file, code) {
+  fs.<span class="fn">readFile</span>(path.<span class="fn">join</span>(PAGES_DIR, file), <span class="str">'utf8'</span>, (err, data) => {
+    <span class="kw">if</span> (err) { <span class="cm">/* 500 fallback */</span> <span class="kw">return</span>; }
+    res.<span class="fn">writeHead</span>(code, { <span class="str">'Content-Type'</span>: <span class="str">'text/html'</span> });
+    res.<span class="fn">end</span>(data);
+  });
+}</pre>
+    </div>
+
+    <!-- How it works timeline -->
+    <h2 class="section-title">Request Lifecycle</h2>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-step">Step 01</div>
+        <div class="tl-title">Browser makes an HTTP GET request</div>
+        <div class="tl-desc">e.g. <code style="color:var(--accent);font-family:var(--font-mono)">GET /about HTTP/1.1</code> arrives at port 3000.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-step">Step 02</div>
+        <div class="tl-title">Server parses the URL pathname</div>
+        <div class="tl-desc">The <code style="color:var(--accent);font-family:var(--font-mono)">URL</code> API strips query strings cleanly.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-step">Step 03</div>
+        <div class="tl-title">Route lookup</div>
+        <div class="tl-desc">Pathname is matched against the route map. Unknown paths fall through to the 404 handler.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-step">Step 04</div>
+        <div class="tl-title">Async file read</div>
+        <div class="tl-desc"><code style="color:var(--accent);font-family:var(--font-mono)">fs.readFile</code> reads the HTML from disk without blocking the event loop.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-step">Step 05</div>
+        <div class="tl-title">Response sent</div>
+        <div class="tl-desc">Correct HTTP status code + <code style="color:var(--accent);font-family:var(--font-mono)">Content-Type: text/html</code> header + HTML body.</div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    Listening on <span>localhost:3000</span> · Node.js HTTP Module · Assignment 6
+  </footer>
+
+</body>
+</html>
