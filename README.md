@@ -23,10 +23,10 @@ Simple web server in Node.js
 
 ##Routes 
 URL -------- Page -------- Status
-/home ---- Home page ---- 200 OK
-/about ---- About page ---- 200 OK
-/services ---- Services page ---- 200 OK
-/contact ---- Contact page ---- 200 OK
-anything else ---- 404 page ---- 404 Not Found
+- /home ---- Home page ---- 200 OK
+- /about ---- About page ---- 200 OK
+- /services ---- Services page ---- 200 OK
+- /contact ---- Contact page ---- 200 OK
+- anything else ---- 404 page ---- 404 Not Found
 
--if file mismatch or deleted ---- 500 - Internal server error
+- if file mismatch or deleted ---- 500 - Internal server error
