@@ -8,12 +8,12 @@ Simple web server in Node.js
    node server.js
 
 4. open browser and go to
-   http://localhost:3000
-   http://localhost:3000/home
-   http://localhost:3000/about
-   http://localhost:3000/services
-   http://localhost:3000/contact
-   http://localhost:3000/xyz ( show 404 )
+   - http://localhost:3000
+   - http://localhost:3000/home
+   - http://localhost:3000/about
+   - http://localhost:3000/services
+   - http://localhost:3000/contact
+   - http://localhost:3000/xyz ( show 404 )
    
 
 ## Modules used 
